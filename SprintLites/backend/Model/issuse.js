@@ -52,6 +52,6 @@ const issueSchema = new mongoose.Schema({
   },
 }, { timestamps: true }); 
 
-const Issue = mongoose.model("Issue", issueSchema);
+export const Issue = mongoose.model("Issue", issueSchema);
 
-export default Issue;
+

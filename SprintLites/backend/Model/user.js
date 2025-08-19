@@ -16,11 +16,12 @@ const userSchema = new mongoose.Schema({
     type: String, 
     required: true 
   },
-  role: { 
-    type: String, 
-    enum: ["admin", "manager", "member"], 
-    required: true 
-  },
+  role: {
+  type: String,
+  enum: ["admin", "manager", "member"],
+  default: "member",
+  lowercase: true
+ },
   avatarUrl: { 
     type: String, 
     default: null 

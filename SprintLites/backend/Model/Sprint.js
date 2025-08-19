@@ -32,6 +32,6 @@ const sprintSchema = new mongoose.Schema({
 });
 
 
-const Sprint = mongoose.model("Sprint", sprintSchema);
+export const Sprint = mongoose.model("Sprint", sprintSchema);
 
-export default Sprint;
+
