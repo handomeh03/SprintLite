@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 export function Auth(req, res, next) {
   const authHeader = req.headers["authorization"];
-
+  
   if (!authHeader) {
     return res.status(403).send({ error: "unauthorized" });
   }
@@ -11,8 +11,8 @@ export function Auth(req, res, next) {
 
   try {
     const user = jwt.verify(token, process.env.SECRETKEY);
-    
     req.user = user; 
+    
     next(); 
   } catch (err) {
     return res.status(401).send({ error: "invalid or expired token" });

@@ -2,6 +2,7 @@ import express from "express";
 import { adduser, createProject, deletemember, listProject } from "../Controller/ProjectController.js";
 import { adminMangerCheck } from "../Middleware/adminMangercheck.js";
 import { changeStatus, createSprint, getAllSprint } from "../Controller/SprintController.js";
+import { addissue, deleteIssue, getDetailsofissuse, getProjectIssues } from "../Controller/issuesController.js";
 export const ProjectRouter=express.Router();
 
 //for create project and mangeuser
@@ -14,3 +15,10 @@ ProjectRouter.delete("/:id/member/:userId",adminMangerCheck,deletemember)
 ProjectRouter.post("/:id/sprints",adminMangerCheck,createSprint)
 ProjectRouter.patch("/sprints/:id/status",adminMangerCheck,changeStatus)
 ProjectRouter.get("/:id/sprints",getAllSprint)
+
+//for issuse
+ProjectRouter.post("/:id/issuse",addissue);
+ProjectRouter.get("/:id/issuse",getProjectIssues);
+ProjectRouter.get("/issues/:id",getDetailsofissuse);
+// ProjectRouter.patch("/issues/:id",adminMangerCheck,updateIssuse);// need solve
+ProjectRouter.delete("/issues/:id",adminMangerCheck,deleteIssue);
