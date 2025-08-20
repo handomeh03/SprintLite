@@ -27,12 +27,12 @@ export async function register(req, res) {
     let salt = await bcrypt.genSalt(10);
     let hashpassword = await bcrypt.hash(password, salt);
 
-    // مباشرة انشاء يوزر
+    
     const createUser = await User.create({
       name,
       email,
       passwordHash: hashpassword,
-      role: role || "member", // default role
+      role: role || "member"
     });
 
     const { _id, role: userRole } = createUser;
