@@ -20,6 +20,7 @@ app.use((req,res,next)=>{
 
 app.use("/api/auth",authRouter);
 app.use("/api/users",Auth,userRouter);
+
 app.use("/api/project",Auth,ProjectRouter);
 app.use("/api/issues",Auth,CommentRouter)
 
