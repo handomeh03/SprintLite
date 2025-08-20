@@ -5,6 +5,7 @@ import { authRouter } from "./Routes/authRouter.js";
 import { userRouter } from "./Routes/userRouter.js";
 import { Auth } from "./Middleware/AuthMiddleware.js";
 import { ProjectRouter } from "./Routes/ProjectRouter.js";
+import { CommentRouter } from "./Routes/CommentRouter.js";
 dotenv.config();
 const app=express();
 app.use(express.json());
@@ -18,8 +19,10 @@ app.use((req,res,next)=>{
 })
 
 app.use("/api/auth",authRouter);
-app.use("/api/users",Auth,userRouter)
-app.use("/api/project",Auth,ProjectRouter)
+app.use("/api/users",Auth,userRouter);
+
+app.use("/api/project",Auth,ProjectRouter);
+app.use("/api/issues",Auth,CommentRouter)
 
 
 

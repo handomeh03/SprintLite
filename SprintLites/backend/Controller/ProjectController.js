@@ -111,7 +111,7 @@ export async function deletemember(req,res) {
 
     await project.save();
 
-   return res.status(200).send({project});
+   return res.status(200).send({deletemember:project});
 
     
   } catch (error) {

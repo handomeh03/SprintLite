@@ -64,12 +64,23 @@ export async function changeStatus(req, res) {
 }
 
 export async function getAllSprint(req, res) {
-    let {id :projectid}=req.params;
+    let {id:projectid}=req.params;
+    let user=req.user;
     try {
      const project=await Project.findById(projectid);
      if(!project){
       return  res.status(400).send({error:"project not found"});
      } 
+
+     const isMember = project.members.some(
+      (memberId) => memberId.toString() == user.id
+    );
+
+    if (!isMember) {
+      return res.status(403).send({ error: "not a project member" });
+    }
+
+
      const sprint =await Sprint.find({project:projectid});
      if(sprint.length==0){
        return res.status(400).send({error:"sprints not found"});
@@ -78,6 +89,6 @@ export async function getAllSprint(req, res) {
 
         
     } catch (error) {
-        res.status(500).send({error})
+        res.status(500).send({error:error.message})
     }
 }

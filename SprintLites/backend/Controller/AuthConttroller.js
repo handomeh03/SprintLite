@@ -4,7 +4,7 @@ import { User } from "../Model/user.js";
 import { createJWT } from "../utlis/createJWT.js";
 
 export async function register(req, res) {
-  let { name, email, password, role } = req.body;
+  let { name, email, password, role,avatarUrls } = req.body;
 
   if (!name || !email || !password) {
     return res.status(400).send({ error: "please fill all input" });
@@ -26,29 +26,28 @@ export async function register(req, res) {
 
     let salt = await bcrypt.genSalt(10);
     let hashpassword = await bcrypt.hash(password, salt);
-
-    
-    const createUser = await User.create({
+   
+    const newUser={
       name,
       email,
-      passwordHash: hashpassword,
-      role: role || "member"
-    });
+      passwordHash:hashpassword,
+      role: role || "member",
+      avatarUrl : avatarUrls || null
+    };
+    const user=await User.create(newUser);
+  
+   const {_id,createdAt,avatarUrl}=user;
 
-    const { _id, role: userRole } = createUser;
+   const token=createJWT(_id, name, email, role,avatarUrl,createdAt);
 
-    const token = createJWT(_id, name, email, userRole);
-
-    res.status(201).send({
-      message: "User registered successfully",
-      user: {
-        id: _id,
-        name,
-        email,
-        role: userRole,
-      },
-      token,
-    });
+    res.status(200).send({user:{
+      id :_id,
+      name,
+      email,
+      role,
+      avatarUrl,
+      createdAt
+    },token});
 
   } catch (error) {
     res.status(500).send({ error: "server error", details: error.message });
@@ -76,19 +75,20 @@ export async function login(req, res) {
       return res.status(401).send({ error: "invalid password" });
     }
 
-    let {_id,name,role}=user;
+    let {_id,name,role,avatarUrl,createdAt}=user;
 
     
-    const token = createJWT(_id, name, email, role);
+    const token = createJWT(_id, name, email, role,avatarUrl,createdAt);
 
    
     res.status(200).send({
-      message: "login successful",
       user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role
+        id: _id,
+        name,
+        email,
+        role,
+        avatarUrl,
+        createdAt
       },
       token
     });
