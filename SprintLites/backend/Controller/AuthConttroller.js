@@ -4,9 +4,9 @@ import { User } from "../Model/user.js";
 import { createJWT } from "../utlis/createJWT.js";
 
 export async function register(req, res) {
-  let { name, email, password} = req.body;
+  let { name, email, password, role } = req.body;
 
-  if (!name || !email || !password ) {
+  if (!name || !email || !password) {
     return res.status(400).send({ error: "please fill all input" });
   }
 
@@ -19,47 +19,42 @@ export async function register(req, res) {
   }
 
   try {
-    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).send({ error: "email already exists" });
     }
 
-   
     let salt = await bcrypt.genSalt(10);
     let hashpassword = await bcrypt.hash(password, salt);
 
-
-    const newUser = new User({
+    // مباشرة انشاء يوزر
+    const createUser = await User.create({
       name,
       email,
-      passwordHash: hashpassword
+      passwordHash: hashpassword,
+      role: role || "member", // default role
     });
 
-    const savedUser = await newUser.save();
-    
+    const { _id, role: userRole } = createUser;
 
-    const { _id, role} = savedUser;
+    const token = createJWT(_id, name, email, userRole);
 
-    
-    const token = createJWT(_id, name, email, role);
-
-    
     res.status(201).send({
       message: "User registered successfully",
       user: {
         id: _id,
         name,
         email,
-        role
+        role: userRole,
       },
-      token
+      token,
     });
 
   } catch (error) {
     res.status(500).send({ error: "server error", details: error.message });
   }
 }
+
 export async function login(req, res) {
   const { email, password } = req.body;
 
