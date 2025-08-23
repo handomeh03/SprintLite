@@ -64,31 +64,32 @@ export async function changeStatus(req, res) {
 }
 
 export async function getAllSprint(req, res) {
-    let {id:projectid}=req.params;
-    let user=req.user;
-    try {
-     const project=await Project.findById(projectid);
-     if(!project){
-      return  res.status(400).send({error:"project not found"});
-     } 
+  let { id: projectid } = req.params;
+  let user = req.user;
 
-     const isMember = project.members.some(
-      (memberId) => memberId.toString() == user.id
+  try {
+    const project = await Project.findById(projectid);
+    if (!project) {
+      return res.status(403).send({ error: "project not found" });
+    }
+
+    
+    const isOwner = project.owner?.toString() === user.id;
+    const isMember = project.members.some(
+      (memberId) => memberId.toString() === user.id
     );
 
-    if (!isMember) {
-      return res.status(403).send({ error: "not a project member" });
+    if (!isOwner && !isMember) {
+      return res.status(403).send({ error: "not allowed" });
     }
 
-
-     const sprint =await Sprint.find({project:projectid});
-     if(sprint.length==0){
-       return res.status(400).send({error:"sprints not found"});
-     }  
-   return  res.status(200).send({sprints:sprint})
-
-        
-    } catch (error) {
-        res.status(500).send({error:error.message})
+    const sprint = await Sprint.find({ project: projectid });
+    if (sprint.length === 0) {
+      return res.status(404).send({ error: "this project dont have sprints" });
     }
+
+    return res.status(200).send({ sprints: sprint });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
 }

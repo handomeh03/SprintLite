@@ -1,0 +1,38 @@
+.list {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+.search{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem;
+}
+.search .inputs{
+    padding: 0.5rem;
+    border-radius: 1rem;
+    border-color: #065f46;
+}
+.AddBtn{
+    border-radius: 1rem;
+    border-color: #065f46 ;
+    color: #065f46;
+}
+
+
+@media (min-width: 900px) {
+  .search{
+    margin: 0rem;
+    padding: 2rem;
+    }
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

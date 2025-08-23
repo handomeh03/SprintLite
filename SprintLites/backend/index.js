@@ -6,9 +6,13 @@ import { userRouter } from "./Routes/userRouter.js";
 import { Auth } from "./Middleware/AuthMiddleware.js";
 import { ProjectRouter } from "./Routes/ProjectRouter.js";
 import { CommentRouter } from "./Routes/CommentRouter.js";
+import cors from "cors";
 dotenv.config();
 const app=express();
 app.use(express.json());
+app.use(cors({
+    origin:"http://localhost:5173"
+}))
 
 const PORT=process.env.PORT;
 

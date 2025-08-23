@@ -1,0 +1,28 @@
+.Settings {
+  max-width: 500px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px #004d40;
+
+}
+
+.Settings h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #004d40;
+}
+
+.Settings form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.Settings p {
+  margin-top: 15px;
+  text-align: center;
+  color: black;
+  font-weight: bold;
+}

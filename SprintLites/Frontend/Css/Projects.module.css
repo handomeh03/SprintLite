@@ -1,0 +1,34 @@
+.Projects{
+    padding: 0.3rem;  
+}
+.ListProjects{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.Projects h1{
+    /* background-color: green; */
+    margin-top: 0px;
+    text-align: center;
+    color:#004d40 ;
+}
+.AddBtn{
+    border-radius: 1rem;
+    border-color: #065f46 ;
+    color: #065f46;
+}.AddBtn{
+    border-radius: 1rem;
+    border-color: #065f46 ;
+    color: #065f46;
+    cursor: pointer;
+    margin-left:1rem ;
+}
+
+@media (min-width:1360px) {
+  .ListProjects{
+        justify-content: flex-start;
+    }
+  
+}
+
+

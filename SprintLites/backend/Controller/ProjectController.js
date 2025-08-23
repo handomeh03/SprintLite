@@ -1,20 +1,18 @@
 import { Project } from "../Model/Project.js";
 import { User } from "../Model/user.js";
-
 export async function createProject(req, res) {
-  let { name, key, description, members } = req.body;
+  let { name, key, description, membersEmail } = req.body; 
   let user = req.user;
 
+  
   if (!name) {
-    return res.status(400).send({ error: "please fill the name of project" });
+    return res.status(400).send({ error: "Please fill the name of project" });
   }
   if (!key) {
-    return res.status(400).send({ error: "please fill the key of project" });
+    return res.status(400).send({ error: "Please fill the key of project" });
   }
   if (!description) {
-    return res
-      .status(400)
-      .send({ error: "please fill the description of project" });
+    return res.status(400).send({ error: "Please fill the description of project" });
   }
 
   try {
@@ -22,22 +20,34 @@ export async function createProject(req, res) {
       name,
       key,
       description,
-      owner: user.id,
+      owner: user.id, 
+      members: [] 
     };
 
-    if (Array.isArray(members) && members.length > 0) {
-      newProject.members = members;
+   
+    if (Array.isArray(membersEmail) && membersEmail.length > 0) {
+      const membersIds = [];
+      for (let email of membersEmail) {
+        const foundUser = await User.findOne({ email });
+        if (foundUser) {
+          membersIds.push(foundUser._id);
+        } 
+      }
+      newProject.members = membersIds;
     }
 
-    let result = await Project.create(newProject);
+   
+    const result = await Project.create(newProject);
+    const project=await Project.findById(result._id).populate("owner","name").populate("members","name")
+    console.log(project)
 
-    return res.status(201).send(result);
-    
+    return res.status(201).send({project});
   } catch (error) {
-    console.log(error);
-    return res.status(500).send({ error });
+    console.error(error);
+    return res.status(500).send({ error: "Server error" });
   }
 }
+
 export async function listProject(req, res) {
   const user = req.user;
   try {
@@ -46,7 +56,7 @@ export async function listProject(req, res) {
             { owner: user.id },
            { members: user.id }
           ]
-    });
+    }).populate("members","name").populate("owner","name")
     if (!projects) {
       res.status(400).send({ error: "no project found" });
     }
@@ -79,19 +89,20 @@ export async function adduser(req, res) {
       memberId.equals(findEmail._id)
     );
     if (isAlreadyMember) {
-      return res
-        .status(400)
-        .json({ error: "User is already a member of the project" });
+      return res.status(400).json({ error: "User is already a member of the project" });
     }
 
     project.members.push(findEmail._id);
     await project.save();
 
-    return res.status(200).json({ project });
+    const updatedProject = await Project.findById(projectid).populate("members", "name");
+
+    return res.status(200).json({ project: updatedProject });
   } catch (error) {
     return res.status(500).json({ error });
   }
 }
+
 export async function deletemember(req,res) {
   let {id,userId}=req.params;
   try {

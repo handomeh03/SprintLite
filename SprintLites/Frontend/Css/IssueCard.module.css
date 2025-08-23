@@ -1,0 +1,97 @@
+.issue {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+  color: #065f46;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+.task {
+  background: #e6f0ff;
+  border-color: #cfe0ff;
+  color: #1d4ed8;
+}
+
+.bug {
+  background: #ffe6e6;
+  border-color: #ffd1d1;
+  color: #b91c1c;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titleRow h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.status {
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.backlog { background: #eef2ff; color: #3730a3; }
+.todo { background: #e5e7eb; color: #374151; }
+.in-progress { background: #dbeafe; color: #1d4ed8; }
+.in-review { background: #ede9fe; color: #6d28d9; }
+.blocked { background: #fee2e2; color: #b91c1c; }
+.done { background: #dcfce7; color: #065f46; }
+
+.desc {
+  color: #111827;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.chip {
+  font-size: 0.72rem;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.priority {
+  font-size: 0.72rem;
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.low { border-color: #cbd5e1; color: #475569; }
+.medium { border-color: #f59e0b; color: #b45309; }
+.high { border-color: #ef4444; color: #991b1b; }
+.urgent { border-color: #7c3aed; color: #5b21b6; }
+
+.spacer {
+  flex: 1;
+}
