@@ -1,0 +1,64 @@
+.ProjectCard {
+  background-color: #eef2f7;
+  min-width: 190px; 
+  padding: 16px;
+  margin: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px #004d40;
+  transition: transform 0.2s ease;
+}
+
+.ProjectCard:hover {
+  transform: translateY(-4px);
+}
+
+.Name {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+  color: #222;
+}
+
+p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+.btns{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.ShowButton {
+  width: 120px;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #004d40;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+  margin-right: 0.5rem;
+}
+
+.ShowButton:hover {
+  background-color: #004d40d7;
+}
+@media (min-width:426px) {
+  .ProjectCard{
+    width: 240px;
+  }
+  .btns{
+    display: flex;
+    flex-direction: row; 
+  }
+}
+@media (min-width:700px) {
+  .ProjectCard{
+    width: 270px;
+  }
+  
+}

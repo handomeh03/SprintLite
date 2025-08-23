@@ -21,7 +21,7 @@ export async function register(req, res) {
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(409).send({ error: "email already exists" });
+      return res.status(404).send({ error: "email already exists" });
     }
 
     let salt = await bcrypt.genSalt(10);
@@ -99,12 +99,24 @@ export async function login(req, res) {
 }
 export async function Me(req,res) {
   let user=req.user;
-  if(user){
-   return  res.status(200).send({user});
+  let finduser=await User.findById(user.id);
+  let {_id,name,email,role,avatarUrl,createdAt}=finduser;
+  if(finduser){
+  return res.status(200).send({
+    user: {
+        id: _id,
+        name,
+        email,
+        role,
+        avatarUrl,
+        createdAt
+    }
+});
   }
   return res.status(404).send({error:"error to get data"})
-
+  
 }
+
 export async function getalluser(req,res) {
    try {
     const alluser = await User.find();

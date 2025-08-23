@@ -1,0 +1,71 @@
+.Headers{
+    height: 60px;
+    background-color: #004d40;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+
+}
+.Headers .info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+.Headers .info .image {
+    width: 50px;
+}
+.Headers .menu{
+    display: block;
+}
+.Headers .menu .menubtn{
+    border: none;
+    border-radius: 1rem;
+    padding: 4px;
+    background-color: #00796b;
+    color: white;
+    cursor: pointer;
+}
+.Headers .listMenu ul{
+    background-color: #045d4ef9;
+    padding: 1rem;
+    list-style: none;
+    position: absolute;
+    top: 3.7rem;
+    right: 0px;
+    border-radius:  1rem 0px ;
+    transition: all 1s ease;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    
+}
+.Headers .listMenu ul li {
+    margin: 0.5rem;
+    padding: 5px;
+    border-radius: 1rem;
+    cursor: pointer;  
+}
+.Headers .menu2{
+    display: none;
+}
+.Headers .menu2 ul{
+display: flex;
+gap: 3rem;
+
+list-style: none;
+margin-left: 0.5rem;
+font-weight: bold;
+}
+@media (min-width:550px) {
+    .Headers .menu2{
+        display: block;
+    }
+    .Headers .menu{
+       display: none;
+    }
+    
+}
+
+

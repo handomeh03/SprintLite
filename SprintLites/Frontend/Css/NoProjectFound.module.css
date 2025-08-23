@@ -1,0 +1,24 @@
+.NoProjectFound{
+    color: #004d40;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.NoProjectFound .btnADD{
+    border: none;
+    padding: 5px;
+    border-radius: 1rem;
+    color: white;
+    background-color: #004d40;
+    cursor: pointer;
+}
+@media (min-width : 426px){
+    .NoProjectFound h2{
+        font-size: xx-large;
+    }
+    .NoProjectFound p{
+        font-size: large;
+    }
+}

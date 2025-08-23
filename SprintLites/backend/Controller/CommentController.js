@@ -18,7 +18,8 @@ export async function AddComment(req,res) {
             author:user.id,
             body:body.trim()
         }
-        const comment= await Comment.create(newComment);
+        const addcomment= await Comment.create(newComment);
+        let comment=await Comment.findById(addcomment._id).populate("author","name");
         res.status(200).send({comment});
         
     } catch (error) {

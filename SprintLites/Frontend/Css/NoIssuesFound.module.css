@@ -1,0 +1,24 @@
+.NoIssuesFound{
+    color: #004d40;
+    height: calc(100vh - 80px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.AddBtn{
+    border-radius: 1rem;
+    border-color: #065f46 ;
+    color: #065f46;
+    cursor: pointer;
+}
+
+
+@media (min-width : 426px){
+    .NoIssuesFound h2{
+        font-size: xx-large;
+    }
+    .NoIssuesFound p{
+        font-size: large;
+    }
+}

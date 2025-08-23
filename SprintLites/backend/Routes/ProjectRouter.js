@@ -6,19 +6,19 @@ import { addissue, deleteIssue, getDetailsofissuse, getProjectIssues } from "../
 export const ProjectRouter=express.Router();
 
 //for create project and mangeuser
-ProjectRouter.post("/createProject",adminMangerCheck,createProject);
-ProjectRouter.get("/listProject",listProject);
-ProjectRouter.post("/:id/members",adminMangerCheck,adduser)
-ProjectRouter.delete("/:id/member/:userId",adminMangerCheck,deletemember)
+ProjectRouter.post("/createProject",adminMangerCheck,createProject);//deon
+ProjectRouter.get("/listProject",listProject);//done
+ProjectRouter.post("/:id/members",adminMangerCheck,adduser)//done
+ProjectRouter.delete("/:id/member/:userId",adminMangerCheck,deletemember)//done
 
 // for sprint
-ProjectRouter.post("/:id/sprints",adminMangerCheck,createSprint)
-ProjectRouter.patch("/sprints/:id/status",adminMangerCheck,changeStatus)
-ProjectRouter.get("/:id/sprints",getAllSprint)
+ProjectRouter.post("/:id/sprints",adminMangerCheck,createSprint)//done
+ProjectRouter.patch("/sprints/:id/status",adminMangerCheck,changeStatus)//done
+ProjectRouter.get("/:id/sprints",getAllSprint)//done
 
 //for issuse
-ProjectRouter.post("/:id/issuse",addissue);
-ProjectRouter.get("/:id/issuse",getProjectIssues);
-ProjectRouter.get("/issues/:id",getDetailsofissuse);
+ProjectRouter.post("/:id/issuse",addissue);//done
+ProjectRouter.get("/:id/issuse/:sprintId",getProjectIssues);//done
+ProjectRouter.get("/issues/:id",getDetailsofissuse);//done
 // ProjectRouter.patch("/issues/:id",adminMangerCheck,updateIssuse);// need solve
-ProjectRouter.delete("/issues/:id",adminMangerCheck,deleteIssue);
+ProjectRouter.delete("/issues/:id",adminMangerCheck,deleteIssue);//done
