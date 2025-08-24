@@ -5,6 +5,6 @@ export function adminMangerCheck(req,res,next){
         next();
     }
     else{
-        res.status(404).send({error:"cant add project beacuse tou are not authorize"})
+        res.status(403).send({error:"cant add project beacuse tou are not authorize"})
     }
 }

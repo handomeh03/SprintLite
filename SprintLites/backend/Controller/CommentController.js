@@ -1,32 +1,35 @@
 import { Comment } from "../Model/Comment.js";
 import { Issue } from "../Model/issuse.js";
 
-export async function AddComment(req,res) {
-    let {id:issuesID}=req.params;
-    let{body}=req.body;
-    let user=req.user;
-    try {
-        let issues =await Issue.findById(issuesID);
-        if(!issues){
-            return res.status(400).send({error:"no issues"})
-        }
-        if(!body || body.trim() === ""){
-            return res.status(400).send({error:"please add comment"}) 
-        }
-        const newComment={
-            issue:issuesID,
-            author:user.id,
-            body:body.trim()
-        }
-        const addcomment= await Comment.create(newComment);
-        let comment=await Comment.findById(addcomment._id).populate("author","name");
-        res.status(200).send({comment});
-        
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({error})
+export async function AddComment(req, res) {
+  let { id: issuesID } = req.params;
+  let { body } = req.body;
+  let user = req.user;
+
+  try {
+    let issue = await Issue.findById(issuesID);
+    if (!issue) {
+      return res.status(404).send({ error: "Issue not found" }); 
     }
+    if (!body || body.trim() === "") {
+      return res.status(422).send({ error: "please add comment" }); 
+    }
+
+    const newComment = {
+      issue: issuesID,
+      author: user.id,
+      body: body.trim()
+    };
+    const addcomment = await Comment.create(newComment);
+    let comment = await Comment.findById(addcomment._id).populate("author", "name");
+    
+    res.status(201).send({ comment }); 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Server error", details: error.message });
+  }
 }
+
 export async function listComment(req, res) {
   const { id: issueId } = req.params;
 
@@ -36,7 +39,6 @@ export async function listComment(req, res) {
       return res.status(404).send({ error: "Issue not found" });
     }
 
-    
     const comments = await Comment.find({ issue: issueId }).populate("author", "name email");
 
     if (comments.length === 0) {
@@ -44,16 +46,19 @@ export async function listComment(req, res) {
     }
 
     return res.status(200).send({ comments });
-
   } catch (error) {
     console.error("Error listing comments:", error);
-    return res.status(500).send({ error: "Server error" });
+    return res.status(500).send({ error: "Server error", details: error.message });
   }
 }
 
 export async function deleteComment(req, res) {
   try {
-    const comment = req.comment; 
+    const comment = req.comment;
+
+    if (!comment) {
+      return res.status(404).send({ error: "Comment not found" });
+    }
 
     await comment.deleteOne();
 
@@ -61,10 +66,8 @@ export async function deleteComment(req, res) {
       message: "Comment deleted successfully",
       deletedComment: comment
     });
-
   } catch (error) {
     console.error("Error deleting comment:", error);
-    return res.status(500).send({ error: "Server error" });
+    return res.status(500).send({ error: "Server error", details: error.message });
   }
 }
-
