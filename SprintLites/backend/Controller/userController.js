@@ -1,12 +1,15 @@
 import bcrypt from "bcrypt";
 import { User } from "../Model/user.js";
 import mongoose from "mongoose";
-
 export async function updateProfile(req, res) {
   let { name, email, password } = req.body;
   let updateData = {};
-  if (name) updateData.name = name;
-  if (email) updateData.email = email;
+  if (name) {
+    updateData.name = name;
+  }
+  if (email) {
+    updateData.email = email;
+  }
   if (password) {
     let salt = await bcrypt.genSalt(10);
     let hashpassword = await bcrypt.hash(password, salt);
@@ -20,9 +23,6 @@ export async function updateProfile(req, res) {
     const updatedUser = await User.findByIdAndUpdate(req.user.id, updateData, {
       new: true,
     });
-    if (!updatedUser) {
-      return res.status(404).send({ error: "User not found" });
-    }
     res.status(200).send({
       user: {
         id: updatedUser._id,
@@ -37,7 +37,6 @@ export async function updateProfile(req, res) {
     res.status(500).json({ error: error.message });
   }
 }
-
 export async function updateRole(req, res) {
   let { role } = req.body;
   let { id } = req.params;
@@ -46,16 +45,15 @@ export async function updateRole(req, res) {
     return res.status(422).send({ error: "Invalid user id" });
   }
 
-  if (!role) {
-    return res.status(422).send({ error: "Role is required" });
+  let updateProfile = {};
+  if (role) {
+    updateProfile.role = role;
   }
 
   try {
-    const newUpdate = await User.findByIdAndUpdate(
-      id,
-      { role },
-      { new: true }
-    );
+    const newUpdate = await User.findByIdAndUpdate(id, updateProfile, {
+      new: true,
+    });
     if (!newUpdate) {
       return res.status(404).send({ error: "User not found" });
     }

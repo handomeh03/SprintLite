@@ -24,7 +24,7 @@ export function UseProject() {
         throw new Error(data.error);
         }
       } catch (error) {
-       alert(error);
+       console.log(error);
       }
     }
 
