@@ -105,8 +105,8 @@
           }
         },
         "responses": {
-          "200": { "description": "User registered successfully" },
-          "400": { "description": "Invalid input" },
+          "201": { "description": "User registered successfully" },
+          "422": { "description": "Missing input / validation error" },
           "404": { "description": "Email already exists" },
           "500": { "description": "Server error" }
         }
@@ -124,7 +124,7 @@
             }
           }
         },
-        "responses": { "200": { "description": "Login successful" }, "400": { "description": "Missing fields" }, "401": { "description": "Invalid password" }, "404": { "description": "Email not found" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Login successful" }, "422": { "description": "Missing fields" }, "401": { "description": "Invalid password" }, "404": { "description": "Email not found" }, "500": { "description": "Server error" } }
       }
     },
     "/auth/me": {
@@ -132,14 +132,14 @@
         "tags": ["Auth"],
         "summary": "Get current user info",
         "security": [{ "bearerAuth": [] }],
-        "responses": { "200": { "description": "User info returned" }, "404": { "description": "Error getting data" } }
+        "responses": { "200": { "description": "User info returned" }, "404": { "description": "Error getting data" }, "401": { "description": "Unauthorized" } }
       }
     },
     "/auth/alluser": {
       "get": {
         "tags": ["Auth"],
         "summary": "Get all users",
-        "responses": { "200": { "description": "List of users" }, "404": { "description": "Error fetching users" } }
+        "responses": { "200": { "description": "List of users" }, "500": { "description": "Server error" } }
       }
     },
     "/users/{id}": {
@@ -149,7 +149,7 @@
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "name": { "type": "string" }, "email": { "type": "string" }, "password": { "type": "string" } } } } } },
-        "responses": { "200": { "description": "Profile updated" }, "400": { "description": "Nothing to update" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Profile updated" }, "422": { "description": "Nothing to update / validation error" }, "401": { "description": "Unauthorized" }, "500": { "description": "Server error" } }
       }
     },
     "/users/{id}/role": {
@@ -159,7 +159,7 @@
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "role": { "type": "string" } } } } } },
-        "responses": { "200": { "description": "Role updated" }, "400": { "description": "Invalid user id" }, "404": { "description": "User not found" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Role updated" }, "422": { "description": "Invalid role / validation error" }, "401": { "description": "Unauthorized" }, "404": { "description": "User not found" }, "500": { "description": "Server error" } }
       }
     },
     "/project/createProject": {
@@ -168,7 +168,7 @@
         "summary": "Create a new project",
         "security": [{ "bearerAuth": [] }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "name": { "type": "string" }, "key": { "type": "string" }, "description": { "type": "string" }, "membersEmail": { "type": "array", "items": { "type": "string" } } }, "required": ["name","key","description"] } } } },
-        "responses": { "201": { "description": "Project created" }, "400": { "description": "Missing fields" }, "500": { "description": "Server error" } }
+        "responses": { "201": { "description": "Project created" }, "422": { "description": "Missing fields / validation error" }, "500": { "description": "Server error" } }
       }
     },
     "/project/listProject": {
@@ -176,7 +176,7 @@
         "tags": ["Projects"],
         "summary": "List projects of user",
         "security": [{ "bearerAuth": [] }],
-        "responses": { "200": { "description": "Projects returned" }, "400": { "description": "No projects found" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Projects returned" }, "404": { "description": "No projects found" }, "500": { "description": "Server error" } }
       }
     },
     "/project/{id}/members": {
@@ -186,7 +186,7 @@
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "email": { "type": "string" } }, "required": ["email"] } } } },
-        "responses": { "200": { "description": "Member added" }, "400": { "description": "Member exists / missing data" }, "404": { "description": "Project or user not found" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Member added" }, "422": { "description": "Member exists / missing data" }, "404": { "description": "Project or user not found" }, "500": { "description": "Server error" } }
       }
     },
     "/project/{id}/member/{userId}": {
@@ -195,7 +195,7 @@
         "summary": "Delete member from project",
         "security": [{ "bearerAuth": [] }],
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }, { "name": "userId", "in": "path", "required": true, "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "Member deleted" }, "400": { "description": "Project or member not found" }, "500": { "description": "Server error" } }
+        "responses": { "200": { "description": "Member deleted" }, "404": { "description": "Project or member not found" }, "500": { "description": "Server error" } }
       }
     },
     "/project/{id}/sprints": {
@@ -206,6 +206,13 @@
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "name": { "type": "string" }, "startDate": { "type": "string" }, "endDate": { "type": "string" }, "goal": { "type": "string" }, "status": { "type": "string" } }, "required": ["name","startDate","endDate"] } } } },
         "responses": { "200": { "description": "Sprint created" }, "400": { "description": "Missing fields" }, "404": { "description": "Project not found" }, "500": { "description": "Server error" } }
+      },
+      "get": {
+        "tags": ["Sprints"],
+        "summary": "Get all sprints of project",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "Sprints returned" }, "403": { "description": "Not allowed" }, "404": { "description": "No sprints found" }, "500": { "description": "Server error" } }
       }
     },
     "/sprints/{id}/status": {
@@ -218,15 +225,6 @@
         "responses": { "200": { "description": "Status updated" }, "400": { "description": "Missing status" }, "404": { "description": "Sprint not found" }, "500": { "description": "Server error" } }
       }
     },
-    "/project/{id}/sprints": {
-      "get": {
-        "tags": ["Sprints"],
-        "summary": "Get all sprints of project",
-        "security": [{ "bearerAuth": [] }],
-        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
-        "responses": { "200": { "description": "Sprints returned" }, "403": { "description": "Not allowed" }, "404": { "description": "No sprints found" }, "500": { "description": "Server error" } }
-      }
-    },
     "/issues/{id}/issue": {
       "post": {
         "tags": ["Issues"],
@@ -235,9 +233,7 @@
         "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "string" } }],
         "requestBody": { "required": true, "content": { "application/json": { "schema": { "type": "object", "properties": { "sprintId": { "type": "string" }, "type": { "type": "string" }, "title": { "type": "string" }, "description": { "type": "string" }, "assignee": { "type": "string" }, "priority": { "type": "string" }, "status": { "type": "string" } }, "required": ["type","title","priority","status"] } } } },
         "responses": { "200": { "description": "Issue created" }, "400": { "description": "Invalid data / project not found" }, "404": { "description": "Sprint not found" }, "500": { "description": "Server error" } }
-      }
-    },
-    "/issues/{id}/issue": {
+      },
       "get": {
         "tags": ["Issues"],
         "summary": "Get all issues for project (filter optional)",

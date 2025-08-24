@@ -1,9 +1,8 @@
-export function CanupdateRole(req,res,next){
-    let user=req.user;
-    if(user.role==="admin"){
+export function CanupdateRole(req, res, next) {
+    let user = req.user;
+    if (user.role === "admin") {
         next();
-    }
-    else{
-        res.status(404).send({error:"cant change role"})
+    } else {
+        res.status(403).send({ error: "You are not authorized to change role" });
     }
 }
