@@ -23,6 +23,7 @@ export default function Comments({ id, flag, handlechangeFlag }) {
   let{CommentDispatch}=UseCommnetContext();
 
   UseFetchComment(id,flag);
+  
   let { comments } = UseCommnetContext();
 
   let { addComment } = UseAddComment();
