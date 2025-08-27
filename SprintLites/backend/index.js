@@ -11,12 +11,21 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import helmet from "helmet";
+import { GlobelLimit } from "./Middleware/rateLimitGlobe.js";
 
 dotenv.config();
 
 const app = express();
+app.use(helmet());
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173" }));
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  next();
+});
+
+app.use(GlobelLimit);
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -31,16 +40,19 @@ const PORT = process.env.PORT || 8080;
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
-app.use((req, res, next) => {
-  console.log(req.method, req.url);
-  next();
-});
+
+
+
+
 
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", Auth, userRouter);
 app.use("/api/project", Auth, ProjectRouter);
 app.use("/api/issues", Auth, CommentRouter);
+
+
+
 
 
 init()

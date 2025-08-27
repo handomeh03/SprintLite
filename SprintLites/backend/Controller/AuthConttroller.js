@@ -1,4 +1,4 @@
-import validator from "validator";
+
 import bcrypt from "bcrypt";
 import { User } from "../Model/user.js";
 import { createJWT } from "../utlis/createJWT.js";
@@ -8,14 +8,6 @@ export async function register(req, res) {
 
   if (!name || !email || !password) {
     return res.status(422).send({ error: "please fill all input" });
-  }
-
-  if (!validator.isEmail(email)) {
-    return res.status(422).send({ error: "the email not correct" });
-  }
-
-  if (!validator.isStrongPassword(password)) {
-    return res.status(422).send({ error: "the password not strong" });
   }
 
   try {

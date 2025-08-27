@@ -6,3 +6,4 @@ export function CanupdateRole(req, res, next) {
         res.status(403).send({ error: "You are not authorized to change role" });
     }
 }
+
