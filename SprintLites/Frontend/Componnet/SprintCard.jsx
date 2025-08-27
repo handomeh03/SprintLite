@@ -3,7 +3,9 @@ import style from "../Css/SprintCard.module.css";
 import ChangeStatusDialog from "./changeStatusDialog";
 import { useState } from "react";
 import { useChangeStatus } from "../hoooks/useChangestatus";
+import { UseUser } from "../Context/userContext";
 export default function SprintCard({sprint}){
+  let {user}=UseUser();
   let [flag,setflag]=useState(false);
   let[status,setStatus]=useState("");
   let {changeStatus}=useChangeStatus();
@@ -53,14 +55,14 @@ export default function SprintCard({sprint}){
       >
         <Link to={"/issues"} style={{color:"white",textDecoration:"none"}}>show Issues</Link>
       </button>
-      <button
+      {user.user.role == "admin " || user.user.role=="manager" ?<button
         className={style.ShowButton}
         onClick={()=>{
           setflag(true)
         }}
       >
         change status
-      </button>
+      </button>:""}
       <ChangeStatusDialog flag={flag} status={status} handleChangeStatus={handleChangeStatus} handleChangeFLag={handleChangeFLag} changestatus={changestatuss} />
     </div>
   );

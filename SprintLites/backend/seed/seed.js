@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { init } from "../db/connection.js";
 import { Comment } from "../Model/Comment.js";
 import { Issue } from "../Model/issuse.js";
 import { Project } from "../Model/Project.js";
@@ -22,22 +21,22 @@ await mongoose.connect(process.env.MONGO_URL);
 
   //user 
    let user = await User.create({
-    name:"jameel",
-    email:"jameel@gmail.com",
+    name:"admin",
+    email:"admin@gmail.com ",
     passwordHash:"12345@abC",
     role:"admin",
     avatarUrl:"null"
    });
    let user2 = await User.create({
-    name:"jalal",
-    email:"jalal@gmail.com",
+    name:"manager",
+    email:"manager@gmail.com",
     passwordHash:"12345@abC",
     role:"manager",
     avatarUrl:"null"
    });
    let user3 = await User.create({
-    name:"handomeh",
-    email:"handomeh@gmail.com",
+    name:"memebr",
+    email:"memeber@gmail.com",
     passwordHash:"12345@abC",
     role:"member",
     avatarUrl:"null"
